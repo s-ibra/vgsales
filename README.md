@@ -1,64 +1,24 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+Ce code a pour objectif d'importer et afficher une liste de jeux vidéo à partir d'un fichier CSV sous le nom de "vgsales.csv" qui permet d'importer et de filtrer une liste de jeux vidéo. 
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
 
-## About Laravel
+Importation du fichier CSV
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Le code a une vue qui affiche tout les jeux vidéos. J'ai décidé de mettre tout en haut un formulaire de filtrage qui permet de sélectionner certains critères de recherche (comme la plateforme, l'année de sortie, le genre etc.).
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Le contrôleur GameController est composé de deux partis :
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+La première fonction est appelée import et elle est chargée d'importer les données. Cette fonction utilise la librairie Maatwebsite Excel pour importer les données à partir du fichier CSV. Une fois que les données ont été importées, la fonction redirige l'utilisateur vers la page précédente et affiche un message de confirmation pour indiquer que l'importation a réussi.
 
-## Learning Laravel
+La deuxième fonction du contrôleur est appelée index et elle est chargée de récupérer les données filtrées et de les afficher à l'utilisateur. Pour ce faire, la fonction ouvre le fichier CSV, extrait les headers et les données, et les stocke dans une collection. Ensuite, la fonction applique les filtres en utilisant la méthode where de la collection pour filtrer les données en fonction des critères sélectionnés par l'utilisateur.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+J'ai préféré ne pas créer de base de données pour rester sur une structure simple et légère du code. J'utilise la méthode where pour appliquer les filtres. Cette méthode est très pratique car elle permet de filtrer les données de manière dynamique en fonction des critères sélectionnés par l'utilisateur. 
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Affichage de la liste des jeux vidéo
 
-## Laravel Sponsors
+La liste des jeux vidéo est affichée dans une vue nommée "index.blade.php".
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+Cette vue contient un formulaire avec une liste déroulante qui permet de choisir le ou les conditions qu'on veux. Les en-têtes de colonnes sont extraits du fichier CSV et affichés comme options de filtrage. 
 
-### Premium Partners
+Les données sont affichées dans un tableau avec une ligne par jeu vidéo. Les colonnes affichées sont "Rank", "Name", "Platform", "Year", "Genre", "Publisher", "NA_Sales", "EU_Sales", "JP_Sales", "Other_Sales" et "Global_Sales". 
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Si aucun jeu n'est trouvé, un message est affiché. Pour faire une nouvelle recherche il faut remettre tout les listes à Tous et cliquez sur Filtrer. Sinon il permet de continuer le filtrage sur la catégorie qu'on a sélectionné.
