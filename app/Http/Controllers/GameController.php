@@ -40,8 +40,8 @@ class GameController extends Controller
         foreach ($filters as $header => $value) {
             if ($value && $value !== 'Tous' && $value !== 'All') {
                 $games = $games->where($header, $value);
+            }
         }
-    }
         return view('games.index', compact('games', 'headers'));
     }   
 }
