@@ -13,9 +13,27 @@ class GameModel
 {
     public static function import(Request $request)
     {
-        $file = $request->file('file');
-        $path = $file->store('import');
-        Excel::import(new GamesImport, storage_path('app/' . $path));
+        $filePath = storage_path('app/vgsales.csv');
+
+        if (!file_exists($filePath)) {
+            return redirect()->back()->with('error', 'Le fichier CSV n\'existe pas!');
+        }
+
+        $file = fopen($filePath, 'r');
+        $headers = fgetcsv($file);
+        $data = [];
+
+        while ($row = fgetcsv($file)) {
+            $data[] = array_combine($headers, $row);
+        }
+
+        fclose($file);
+
+        $games = collect($data);
+        foreach ($games as $game) {
+            Game::updateOrCreate($game);
+        }
+
         return redirect()->back()->with('success', 'Importation réussie!');
     }
 
