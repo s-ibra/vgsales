@@ -9,16 +9,10 @@ class Game extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'Rank',
         'Name',
         'Platform',
         'Year',
         'Genre',
-        'Publisher',
-        'NA_Sales',
-        'EU_Sales',
-        'JP_Sales',
-        'Other_Sales',
         'Global_Sales',
     ];
 }
