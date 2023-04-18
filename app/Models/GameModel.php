@@ -3,13 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Validator;
-use Maatwebsite\Excel\Facades\Excel;
-use App\Imports\GamesImport;
 use App\Models\Game;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Collection;
+
 
 class GameModel
 {
