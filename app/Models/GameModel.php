@@ -13,6 +13,13 @@ use Illuminate\Support\Collection;
 
 class GameModel
 {
+    /**
+     * Importe les données d'un fichier CSV.
+     *
+     * @param Request $request Les données de la requête.
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public static function import(Request $request)
     {
         $filePath = storage_path('app/vgsales.csv');
@@ -42,6 +49,13 @@ class GameModel
         return redirect()->back()->with('success', 'Importation réussie!');
     }
 
+    /**
+     * Affiche la liste des jeux vidéo avec des filtres optionnels.
+     *
+     * @param Request $request Les données de la requête.
+     *
+     * @return \Illuminate\View\View
+     */
     public static function index(Request $request)
     {
         $headers = [
