@@ -1,17 +1,31 @@
 @extends('layouts.app')
 @section('content')
 <head>
-	<title>Exemple de DataTable</title>
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.3/datatables.min.css"/>
 </head>
 <body>
     <h1>Liste des jeux importés</h1>
     <form method="GET" action="{{ route('games.index') }}">
+        <?php
+        /**
+         * Boucle sur le tableau $headers et génère des options de sélection
+         * pour chaque élément du tableau.
+         */
+        ?>
         @foreach($headers as $header)
             <div>
                 <label for="{{ $header }}">{{ $header }}</label>
                 <select name="{{ $header }}">
                     <option value="">Tous</option>
+                    <?php
+                    /**
+                    * Boucle sur le tableau $games et extrait une colonne spécifique.
+                    *
+                    * @param string $header La colonne à extraire.
+                    *
+                    * @return \Illuminate\Support\Collection
+                    */
+                    ?>
                     @foreach($games->pluck($header)->unique() as $value)
                         <option value="{{ $value }}" @if(request($header) == $value) selected @endif>{{ $value }}</option>
                     @endforeach
@@ -49,6 +63,7 @@
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.3/datatables.min.js"></script>
 	<script type="text/javascript">
+
 		$(document).ready(function() {
 			$('#example').DataTable();
 		});
@@ -56,4 +71,3 @@
 
 </body>
 @endsection
-
